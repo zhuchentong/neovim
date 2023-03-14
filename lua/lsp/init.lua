@@ -8,32 +8,6 @@ if not mason_ok or not mason_lsp_ok then
   return
 end
 
--- 安装列表
--- { key: 服务器名， value: 配置文件 }
--- key 必须为下列网址列出的 server name，不可以随便写
--- https://github.com/williamboman/nvim-lsp-installer#available-lsps
-local servers = {
-  tsserver = require("lsp.services.typescript"),
-  tailwindcss = require("lsp.services.tailwindcss"),
-  bashls = require("lsp.services.bash"),
-  html = require("lsp.services.html"),
-  cssls = require("lsp.services.css"),
-  emmet_ls = require("lsp.services.emmet"),
-  jsonls = require("lsp.services.json"),
-  yamlls = require("lsp.services.yaml"),
-  rust_analyzer = require("lsp.services.rust"),
-  volar = require("lsp.services.volar")
-}
-
-for name, config in pairs(servers) do
-  if config ~= nil and type(config) == "table" then
-    -- 自定义初始化配置文件必须实现on_setup 方法
-    config.on_setup(lspconfig[name])
-  else
-    -- 使用默认参数
-    lspconfig[name].setup({})
-  end
-end
 
 mason.setup {
   ui = {
@@ -146,6 +120,33 @@ lspconfig.vuels.setup {
   init_options = require('lsp.servers.vuels').init_options,
   on_attach = on_attach,
 }
+
+-- 安装列表
+-- { key: 服务器名， value: 配置文件 }
+-- key 必须为下列网址列出的 server name，不可以随便写
+-- https://github.com/williamboman/nvim-lsp-installer#available-lsps
+local servers = {
+  tsserver = require("lsp.services.typescript"),
+  tailwindcss = require("lsp.services.tailwindcss"),
+  bashls = require("lsp.services.bash"),
+  html = require("lsp.services.html"),
+  cssls = require("lsp.services.css"),
+  emmet_ls = require("lsp.services.emmet"),
+  jsonls = require("lsp.services.json"),
+  yamlls = require("lsp.services.yaml"),
+  rust_analyzer = require("lsp.services.rust"),
+  volar = require("lsp.services.volar")
+}
+
+for name, config in pairs(servers) do
+  if config ~= nil and type(config) == "table" then
+    -- 自定义初始化配置文件必须实现on_setup 方法
+    config.on_setup(lspconfig[name])
+  else
+    -- 使用默认参数
+    lspconfig[name].setup({})
+  end
+end
 
 for _, server in ipairs { "bashls", "emmet_ls", "graphql", "html", "volar", "prismals" } do
   lspconfig[server].setup {

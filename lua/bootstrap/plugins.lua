@@ -105,5 +105,40 @@ return {
       },
     },
   },
+  -- LSP
+  {
+    "neovim/nvim-lspconfig",
+    event = "BufReadPre",
+    dependencies = {
+      "mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    servers = nil,
+  },
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = {
+      { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" },
+    },
+  },
+  -- Formatters
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    event = "BufNewFile",
+    dependencies = { "mason.nvim" },
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
+    config = function()
+      require("plugins.null-ls")
+    end,
+  },
 }
 
